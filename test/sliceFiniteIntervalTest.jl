@@ -1,4 +1,4 @@
-include("../src/mcmc/sliceStepOut.jl")
+using NRMMM
 using Base.Test
 
 sampler = SliceFiniteInterval(0.0, 1.0)

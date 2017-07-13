@@ -1,4 +1,4 @@
-include("../src/mcmc/sliceStepOut.jl")
+using NRMMM
 using Base.Test
 
 sampler = SliceStepOut(0.2, 50)

@@ -1,4 +1,4 @@
-include("../src/mcmc/metropolis.jl")
+using NRMMM
 using Base.Test, Distributions
 
 numdata = 500000
