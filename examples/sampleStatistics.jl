@@ -1,4 +1,4 @@
-include("mcmc/ess.jl")
+using NRMMM
 
 # Compute statistics
 parameters = open(readdlm,"output/neal8.parameters")
