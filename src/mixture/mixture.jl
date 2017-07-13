@@ -10,7 +10,7 @@ function numClusters{T<:Mixture}(m::T)
 end
 
 function getDatum{T<:Mixture}(m::T, i::Int)
-  return m.data[i]
+  return m.data[i,:]
 end
 
 function getCluster{T<:Mixture}(m::T, i::Int)
@@ -22,7 +22,7 @@ function newCluster{T<:Mixture}(m::T, logmass::Float)
 end
 
 # Clusters management
-function addDataAbstract{T<:Mixture}(m::T, traindata::Union{Array{Float, 1}, Array{Float, 2}})
+function addDataAbstract{T<:Mixture}(m::T, traindata::Array{Float, 2})
   m.data = traindata
   numdata = numData(m)
   numclusters = Int(min(numdata,round(m.numClustersRatio*ceil(meanNumClusters(m.nrmi,numdata)))))
@@ -32,16 +32,16 @@ function addDataAbstract{T<:Mixture}(m::T, traindata::Union{Array{Float, 1}, Arr
     push!(clusterlist, cc)
     push!(m.clusters, cc)
     push!(m.map,nothing)
-    assign(m, i, m.data[i], cc)
+    assign(m, i, m.data[i,:], cc)
   end
   @inbounds for i in numclusters+1:numdata
     cc = clusterlist[rand(1:numclusters)]
     push!(m.map,nothing)
-    assign(m, i, m.data[i], cc)
+    assign(m, i, m.data[i,:], cc)
   end
 end
 
-function assign{T<:Mixture}(m::T, i::Int, datum::Union{Float, Array{Float, 1}}, cc::Cluster)
+function assign{T<:Mixture}(m::T, i::Int, datum::Array{Float, 1}, cc::Cluster)
   assert((length(m.map)>=i) | (m.map[i] == nothing))
   assert(datum == getDatum(m, i))
   addDatum(cc.parameter, datum)
@@ -49,7 +49,7 @@ function assign{T<:Mixture}(m::T, i::Int, datum::Union{Float, Array{Float, 1}}, 
   m.map[i] = cc
 end
 
-function unassign{T<:Mixture}(m::T, i::Int, datum::Union{Float, Array{Float, 1}})
+function unassign{T<:Mixture}(m::T, i::Int, datum::Array{Float, 1})
   assert(((datum == nothing) & (getDatum(m, i)==nothing)) | (datum == getDatum(m, i)))
   assert((i>=1) & (i<=length(m.map)))
   cc = m.map[i]

@@ -15,16 +15,16 @@ end
 NormalNonConjugateHierarchySampled(prior::NormalGammaIndependent) =
 NormalNonConjugateHierarchySampled(prior, 0.0, 0.0, 0, drawSample(prior))
 
-function addDatum(h::NormalNonConjugateHierarchySampled, datum::Float)
+function addDatum(h::NormalNonConjugateHierarchySampled, datum::Array{Float, 1})
   h.number += 1
-	h.sumX += datum
-	h.sumXX += datum*datum
+	h.sumX += datum[1]
+	h.sumXX += datum[1]*datum[1]
 end
 
-function removeDatum(h::NormalNonConjugateHierarchySampled, datum::Float)
+function removeDatum(h::NormalNonConjugateHierarchySampled, datum::Array{Float, 1})
   h.number -= 1
-	h.sumX -= datum
-	h.sumXX -= datum*datum
+	h.sumX -= datum[1]
+	h.sumXX -= datum[1]*datum[1]
   assert(h.number >= 0)
   assert(h.sumXX >= -1e-10)
 end
@@ -56,8 +56,8 @@ function logJoint(h::NormalNonConjugateHierarchySampled)
     logProbability(h.prior, h.param)
 end
 
-function logPredictive(h::NormalNonConjugateHierarchySampled, datum::Float)
-  return logpdf(h.param, datum)
+function logPredictive(h::NormalNonConjugateHierarchySampled, datum::Array{Float, 1})
+  return logpdf(h.param, datum[1])
 end
 
 ######### NormalNonConjugateFactorySampled

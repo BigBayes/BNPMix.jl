@@ -84,7 +84,14 @@ function nrmi(alg::String, conjugate::Bool, outputFilename::String, numBurnin::I
   else print("Only Neal8 and Reuse implemented\n")
   end
 
-  addData(model, data)
+  if numdim == 1
+    newData = zeros(numdata, 1)
+    newData[:,1] = data
+  else
+    newData = data
+  end
+
+  addData(model, newData)
 
   # Parameters STDOUT
   print("\nNRMIX ", alg);

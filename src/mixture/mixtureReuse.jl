@@ -7,7 +7,7 @@ mutable struct MixtureReuse <: Mixture
     prior::Prior
     factory::Factory
     numNewClusters::Int
-    data::Union{Array{Float, 0}, Array{Float, 1}, Array{Float, 2}}
+    data::Union{Void, Array{Float, 2}}
     map::Union{Array{Union{Cluster, Void}, 0}, Array{Union{Cluster, Void}, 1}}
     clusters::Set{Cluster}
     numClustersRatio::Float
@@ -15,7 +15,7 @@ mutable struct MixtureReuse <: Mixture
 
     # Constructor
     function MixtureReuse(nrmi::NRMI, prior::Prior, factory::Factory, numNewClusters::Int)
-      this = new(nrmi, prior, factory, numNewClusters, zeros(Float, 0), Array{Union{Void, Cluster}}(0), Set(), 5.0, Array{Union{Void, Cluster}}(0))
+      this = new(nrmi, prior, factory, numNewClusters, nothing, Array{Union{Void, Cluster}}(0), Set(), 5.0, Array{Union{Void, Cluster}}(0))
       initializeEmpties(this)
       return this
     end
@@ -28,7 +28,7 @@ function initializeEmpties(m::MixtureReuse)
   end
 end
 
-function addData(m::MixtureReuse, traindata::Union{Array{Float, 1}, Array{Float, 2}})
+function addData(m::MixtureReuse, traindata::Array{Float, 2})
   addDataAbstract(m, traindata)
   sampleAssignments(m)
 end
