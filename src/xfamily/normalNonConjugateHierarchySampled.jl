@@ -1,7 +1,8 @@
 using Distributions
 
 export
-    NormalNonConjugateFactorySampled
+    NormalNonConjugateFactorySampled,
+    construct
 
 mutable struct NormalNonConjugateHierarchySampled <: Hierarchy
   prior::NormalGammaIndependent

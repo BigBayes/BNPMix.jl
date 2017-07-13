@@ -1,3 +1,7 @@
+export
+    Cluster,
+    isEmpty
+
 mutable struct Cluster#{Theta}
     number::Int
     logmass::Union{Float, Void}
