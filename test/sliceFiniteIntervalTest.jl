@@ -1,7 +1,7 @@
 using NRMMM
 using Base.Test
 
-sampler = SliceFiniteInt64erval(0.0, 1.0)
+sampler = SliceFiniteInterval(0.0, 1.0)
 sigma = 0.5
 numdata = 10000;
 
