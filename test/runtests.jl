@@ -1,5 +1,6 @@
 using NRMMM
 using Base.Test
 
-# write your own tests here
-@test 1 == 2
+@testset "metropolis"          begin include("metropolisTest.jl")          end
+@testset "sliceFiniteInterval" begin include("sliceFiniteIntervalTest.jl") end
+@testset "sliceStepOut"        begin include("sliceStepOutTest.jl")        end
