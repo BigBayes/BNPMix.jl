@@ -20,4 +20,4 @@ using NRMMM
 
 ## Reference
 
-* Favaro1, Teh, *MCMC for Normalized Random Measure Mixture Models*, [link](https://www.stats.ox.ac.uk/~teh/research/npbayes/FavTeh2013a.pdf), 2013.
+* Favaro, Teh, *MCMC for Normalized Random Measure Mixture Models*, [link](https://www.stats.ox.ac.uk/~teh/research/npbayes/FavTeh2013a.pdf), 2013.
