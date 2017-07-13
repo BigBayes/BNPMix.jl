@@ -15,7 +15,7 @@ mutable struct MixtureNeal8 <: Mixture
 
     # Constructor
     function MixtureNeal8(nrmi::NRMI, prior::Prior, factory::Factory, numNewClusters::Int)
-      this = new(nrmi, prior, factory, numNewClusters, zeros(Float, 0), Array(Union{Void, Cluster}, 0), Set(), 5.0, Array(Union{Void, Cluster}, 0))
+      this = new(nrmi, prior, factory, numNewClusters, zeros(Float, 0), Array{Union{Void, Cluster}}(0), Set(), 5.0, Array{Union{Void, Cluster}}(0))
       initializeEmpties(this)
       return this
     end
