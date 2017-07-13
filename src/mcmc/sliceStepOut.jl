@@ -2,6 +2,11 @@ include("../utils.jl")
 using Distributions
 import Base.convert
 
+export
+    SliceFiniteInterval,
+    SliceStepOut,
+    sample
+
 ### SliceFiniteInterval
 
 struct SliceFiniteInterval

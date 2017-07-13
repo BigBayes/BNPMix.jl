@@ -1,3 +1,6 @@
+export
+    ess_factor
+
 """
 Lag-`k` autocorrelation of `x` from a variogram. `v` is the variance
 of `x`, used when supplied.

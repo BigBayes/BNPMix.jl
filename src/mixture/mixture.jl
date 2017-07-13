@@ -1,5 +1,3 @@
-include("cluster.jl")
-
 abstract type Mixture end
 
 # Helpers

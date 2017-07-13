@@ -1,5 +1,7 @@
 using Distributions
-include("../mcmc/metropolis.jl")
+
+export
+    NormalGammaIndependent
 
 abstract type Hierarchy end
 abstract type Prior end

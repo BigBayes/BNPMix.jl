@@ -1,5 +1,6 @@
-include("mixture.jl")
-include("../nrmi/NGGP.jl")
+export
+    MixtureReuse,
+    addData
 
 mutable struct MixtureReuse <: Mixture
     nrmi::NRMI

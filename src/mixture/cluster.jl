@@ -1,5 +1,3 @@
-include("../xfamily/normalGammaIndependent.jl")
-
 mutable struct Cluster#{Theta}
     number::Int64
     logmass::Union{Float64, Void}

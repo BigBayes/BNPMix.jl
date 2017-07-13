@@ -1,8 +1,8 @@
 import StatsBase.sample
 
-# export
-#     Metropolis,
-#     sample
+export
+    Metropolis,
+    sample
 
 mutable struct Metropolis
   propose::Function

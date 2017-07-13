@@ -1,5 +1,7 @@
 using Distributions
-include("normalGammaIndependent.jl")
+
+export
+    NormalNonConjugateFactorySampled
 
 mutable struct NormalNonConjugateHierarchySampled <: Hierarchy
   prior::NormalGammaIndependent

@@ -1,7 +1,8 @@
 using Distributions
 import StatsBase.sample
-include("../mcmc/sliceStepOut.jl")
-include("../mixture/cluster.jl")
+
+export
+    NGGP
 
 # Normalized Gamma Generalized Process
 abstract type NRMI end

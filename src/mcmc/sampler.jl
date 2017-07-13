@@ -1,6 +1,10 @@
 import Base.run
 using ProgressMeter
 
+export
+    Sampler,
+    runSampler
+
 struct Sampler
   model::Mixture
   numBurnIn::Int64
@@ -40,6 +44,7 @@ function runSampler(s::Sampler)
     #Flush
   end
   print("\n Done: ", "\nRun time = ", lruntime)
+  outputFilename = s.outputFilename
   Base.run(`rm -f output/$outputFilename`)
   Base.run(`touch output/$outputFilename`)
   open(string("output/", outputFilename), "w") do f

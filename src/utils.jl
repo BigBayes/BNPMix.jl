@@ -1,4 +1,4 @@
-using Distributions
+#using Distributions
 
 function rndExponential()
   return -log(rand())
