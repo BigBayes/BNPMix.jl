@@ -7,11 +7,11 @@ precisionInvScaleAlpha = 0.2
 precisionInvScaleBeta = 6.34
 precisionInvScale = precisionInvScaleAlpha / precisionInvScaleBeta
 
-function propose(x::Float)
+function propose(x::Float64)
   x*exp(.5*rand(Normal()))
 end
 
-function logratio(isnew::Float, isold::Float)
+function logratio(isnew::Float64, isold::Float64)
   return precisionInvScaleAlpha * (log(isnew) - log(isold)) - precisionInvScaleBeta * (isnew - isold)
 end
 
