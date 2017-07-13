@@ -5,7 +5,7 @@ sampler = SliceStepOut(0.2, 50)
 sigma = 0.5
 numdata = 10000;
 
-function logDensity(x::Float64)
+function logDensity(x::Float)
  return - (x+1)^2/(2*4) - (x-1)^2/(2*4)
 end
 

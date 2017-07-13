@@ -6,16 +6,16 @@ mutable struct MixtureReuse <: Mixture
     nrmi::NRMI
     prior::Prior
     factory::Factory
-    numNewClusters::Int64
-    data::Union{Array{Float64, 0}, Array{Float64, 1}, Array{Float64, 2}}
+    numNewClusters::Int
+    data::Union{Array{Float, 0}, Array{Float, 1}, Array{Float, 2}}
     map::Union{Array{Union{Cluster, Void}, 0}, Array{Union{Cluster, Void}, 1}}
     clusters::Set{Cluster}
-    numClustersRatio::Float64
+    numClustersRatio::Float
     empties::Array{Union{Cluster, Void}, 1}
 
     # Constructor
-    function MixtureReuse(nrmi::NRMI, prior::Prior, factory::Factory, numNewClusters::Int64)
-      this = new(nrmi, prior, factory, numNewClusters, zeros(Float64, 0), Array{Union{Void, Cluster}}(0), Set(), 5.0, Array{Union{Void, Cluster}}(0))
+    function MixtureReuse(nrmi::NRMI, prior::Prior, factory::Factory, numNewClusters::Int)
+      this = new(nrmi, prior, factory, numNewClusters, zeros(Float, 0), Array{Union{Void, Cluster}}(0), Set(), 5.0, Array{Union{Void, Cluster}}(0))
       initializeEmpties(this)
       return this
     end
@@ -28,7 +28,7 @@ function initializeEmpties(m::MixtureReuse)
   end
 end
 
-function addData(m::MixtureReuse, traindata::Union{Array{Float64, 1}, Array{Float64, 2}})
+function addData(m::MixtureReuse, traindata::Union{Array{Float, 1}, Array{Float, 2}})
   addDataAbstract(m, traindata)
   sampleAssignments(m)
 end
@@ -54,7 +54,7 @@ function sampleAssignments(m::MixtureReuse)
   end
 end
 
-function sampleAssignment(m::MixtureReuse, index::Int64)
+function sampleAssignment(m::MixtureReuse, index::Int)
   datum = getDatum(m, index)
   tt = unassign(m, index, datum)
 

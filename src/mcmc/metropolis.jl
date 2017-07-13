@@ -6,13 +6,13 @@ export
 
 mutable struct Metropolis
   propose::Function
-  acceptancerate::Float64
-  num::Float64
+  acceptancerate::Float
+  num::Float
 end
 
 Metropolis(propose::Function) = Metropolis(propose, 0.0, 0.0)
 
-function sample(sampler::Metropolis, logratio::Function, value::Float64)
+function sample(sampler::Metropolis, logratio::Function, value::Float)
   newvalue = sampler.propose(value)
   arate = min(1.0, exp(logratio(newvalue,value)))
   sampler.num += 1

@@ -7,15 +7,15 @@ abstract type Hierarchy end
 abstract type Prior end
 
 mutable struct NormalGammaIndependent <: Prior
-    meanMean::Float64
-    meanPrecision::Float64
-    precisionShape::Float64
-    precisionInvScaleAlpha::Float64
-    precisionInvScaleBeta::Float64
-    precisionInvScale::Float64
+    meanMean::Float
+    meanPrecision::Float
+    precisionShape::Float
+    precisionInvScaleAlpha::Float
+    precisionInvScaleBeta::Float
+    precisionInvScale::Float
     data::Union{Set{Hierarchy}, Void}
 
-    function NormalGammaIndependent(meanMean::Float64, meanPrecision::Float64, precisionShape::Float64, precisionInvScaleAlpha::Float64, precisionInvScaleBeta::Float64, precisionInvScale::Float64)
+    function NormalGammaIndependent(meanMean::Float, meanPrecision::Float, precisionShape::Float, precisionInvScaleAlpha::Float, precisionInvScaleBeta::Float, precisionInvScale::Float)
     	assert((meanMean >= zero(meanMean)) && (meanPrecision >= zero(meanPrecision)) && (precisionShape >= zero(precisionShape)) &&
       (precisionInvScaleAlpha >= zero(precisionInvScaleAlpha)) && (precisionInvScaleBeta >= zero(precisionInvScaleBeta)) &&
       (precisionInvScale >= zero(precisionInvScale)))
@@ -23,7 +23,7 @@ mutable struct NormalGammaIndependent <: Prior
     end
 end
 
-NormalGammaIndependent(meanMean::Float64, meanPrecision::Float64, precisionShape::Float64, precisionInvScaleAlpha::Float64, precisionInvScaleBeta::Float64) =
+NormalGammaIndependent(meanMean::Float, meanPrecision::Float, precisionShape::Float, precisionInvScaleAlpha::Float, precisionInvScaleBeta::Float) =
 NormalGammaIndependent(meanMean, meanPrecision, precisionShape, precisionInvScaleAlpha, precisionInvScaleBeta, precisionInvScaleAlpha/precisionInvScaleBeta)
 
 function drawSample(d::NormalGammaIndependent)
@@ -37,7 +37,7 @@ function logNormalizer(d::NormalGammaIndependent)
             lgamma(d.precisionShape)
 end
 
-function logProbability(d::NormalGammaIndependent, normal::Distributions.Normal{Float64})
+function logProbability(d::NormalGammaIndependent, normal::Distributions.Normal{Float})
   diff = mean(normal) - d.meanMean
   normalprecision = 1.0/var(normal)
 	return  -.5*d.meanPrecision*diff*diff +
@@ -59,11 +59,11 @@ end
 
 function samplePrecisionInvScale(d::NormalGammaIndependent)
 
-  function propose(precisionInvScale::Float64)
+  function propose(precisionInvScale::Float)
     return precisionInvScale * exp(.5 * rand(Normal()))
   end
 
-  function logratio(isnew::Float64, isold::Float64)
+  function logratio(isnew::Float, isold::Float)
     d.precisionInvScale = isold
     result = d.precisionInvScaleAlpha * (log(isnew) - log(isold)) -
     d.precisionInvScaleBeta * (isnew - isold)

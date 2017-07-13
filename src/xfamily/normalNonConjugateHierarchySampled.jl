@@ -5,22 +5,22 @@ export
 
 mutable struct NormalNonConjugateHierarchySampled <: Hierarchy
   prior::NormalGammaIndependent
-  sumX::Float64
-  sumXX::Float64
-  number::Int64
-  param::Distributions.Normal{Float64}
+  sumX::Float
+  sumXX::Float
+  number::Int
+  param::Distributions.Normal{Float}
 end
 
 NormalNonConjugateHierarchySampled(prior::NormalGammaIndependent) =
 NormalNonConjugateHierarchySampled(prior, 0.0, 0.0, 0, drawSample(prior))
 
-function addDatum(h::NormalNonConjugateHierarchySampled, datum::Float64)
+function addDatum(h::NormalNonConjugateHierarchySampled, datum::Float)
   h.number += 1
 	h.sumX += datum
 	h.sumXX += datum*datum
 end
 
-function removeDatum(h::NormalNonConjugateHierarchySampled, datum::Float64)
+function removeDatum(h::NormalNonConjugateHierarchySampled, datum::Float)
   h.number -= 1
 	h.sumX -= datum
 	h.sumXX -= datum*datum
@@ -55,7 +55,7 @@ function logJoint(h::NormalNonConjugateHierarchySampled)
     logProbability(h.prior, h.param)
 end
 
-function logPredictive(h::NormalNonConjugateHierarchySampled, datum::Float64)
+function logPredictive(h::NormalNonConjugateHierarchySampled, datum::Float)
   return logpdf(h.param, datum)
 end
 

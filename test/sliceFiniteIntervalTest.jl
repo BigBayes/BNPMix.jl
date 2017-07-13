@@ -5,7 +5,7 @@ sampler = SliceFiniteInterval(0.0, 1.0)
 sigma = 0.5
 numdata = 10000;
 
-function logDensity(x::Float64) #Beta(2,5)
+function logDensity(x::Float) #Beta(2,5)
  return log(x) + 4*log(1-x)
 end
 

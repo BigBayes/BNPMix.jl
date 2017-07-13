@@ -7,15 +7,15 @@ export
 
 struct Sampler
   model::Mixture
-  numBurnIn::Int64
-  numSample::Int64
-  numThinning::Int64
+  numBurnIn::Int
+  numSample::Int
+  numThinning::Int
   outputFilename::String
-  collectors::Array{Float64}{2}
+  collectors::Array{Float}{2}
 end
 
-Sampler(model::Mixture, numBurnIn::Int64, numSample::Int64, numThinning::Int64, outputFilename::String) =
-Sampler(model, numBurnIn, numSample, numThinning, outputFilename, zeros(Float64, numSample, 6))
+Sampler(model::Mixture, numBurnIn::Int, numSample::Int, numThinning::Int, outputFilename::String) =
+Sampler(model, numBurnIn, numSample, numThinning, outputFilename, zeros(Float, numSample, 6))
 
 function runSampler(s::Sampler)
   print("\n Initialize Sampler: \n")
@@ -60,7 +60,7 @@ function runSampler(s::Sampler)
    end
 end
 
-function sample(s::Sampler, numIteration::Int64)
+function sample(s::Sampler, numIteration::Int)
   for i in 1:numIteration
     sample(s.model)
   end

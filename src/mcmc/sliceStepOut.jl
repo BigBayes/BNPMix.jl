@@ -10,17 +10,17 @@ export
 ### SliceFiniteInterval
 
 struct SliceFiniteInterval
-  lower::Float64
-  upper::Float64
+  lower::Float
+  upper::Float
 end
 
-function sample(sampler::SliceFiniteInterval, logDensity::Function, value::Float64)
+function sample(sampler::SliceFiniteInterval, logDensity::Function, value::Float)
    slice = logDensity(value) - rndExponential()
    return  sample(sampler, logDensity, value, slice)
 end
 
 
-function sample(sampler::SliceFiniteInterval, logDensity::Function, value::Float64, slice::Float64)
+function sample(sampler::SliceFiniteInterval, logDensity::Function, value::Float, slice::Float)
   #print("SliceFiniteInterval - sample\n")
   l = sampler.lower
   u = sampler.upper
@@ -36,25 +36,25 @@ end
 ### SliceStepOut
 
 mutable struct SliceStepOut
-  stepsize::Float64
-  numstep::Int64
-  lower::Float64
-  upper::Float64
+  stepsize::Float
+  numstep::Int
+  lower::Float
+  upper::Float
 end
 
-SliceStepOut(stepsize::Float64, numstep::Int64) = SliceStepOut(stepsize, numstep, 0.0, 1.0)
+SliceStepOut(stepsize::Float, numstep::Int) = SliceStepOut(stepsize, numstep, 0.0, 1.0)
 
 convert(::Type{SliceFiniteInterval}, sampler::SliceStepOut) = SliceFiniteInterval(sampler.lower, sampler.upper)
 
-function setLower(sampler::Union{SliceFiniteInterval, SliceStepOut}, l::Float64)
+function setLower(sampler::Union{SliceFiniteInterval, SliceStepOut}, l::Float)
   sampler.lower = l
 end
 
-function setUpper(sampler::Union{SliceFiniteInterval, SliceStepOut}, u::Float64)
+function setUpper(sampler::Union{SliceFiniteInterval, SliceStepOut}, u::Float)
   sampler.upper = u
 end
 
-function sample(sampler::SliceStepOut, logDensity::Function, value::Float64)
+function sample(sampler::SliceStepOut, logDensity::Function, value::Float)
   #print("SliceStepOut - sample\n")
   slice = logDensity(value) - rndExponential()
   l = value - sampler.stepsize * rand(Uniform())
