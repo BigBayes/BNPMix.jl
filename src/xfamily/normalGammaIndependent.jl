@@ -1,7 +1,9 @@
 using Distributions
 
 export
-    NormalGammaIndependent
+    NormalGammaIndependent,
+    drawSample,
+    logProbability
 
 abstract type Hierarchy end
 abstract type Prior end
