@@ -6,7 +6,7 @@ numBurnin = 10000
 numSample = 10000
 numThinning = 20
 conjugate = false
-alg = "Reuse"#"Neal8"
+alg = "Neal8"#"Reuse"
 
 function nrmi(alg::String, conjugate::Bool, outputFilename::String, numBurnin::Int64, numSample::Int64, numThinning::Int64, numEmptyClusters::Int64)
 
@@ -81,7 +81,8 @@ function nrmi(alg::String, conjugate::Bool, outputFilename::String, numBurnin::I
 
   if alg == "Neal8" model = MixtureNeal8(nggp, prior, factory, numEmptyClusters)
   elseif alg == "Reuse" model = MixtureReuse(nggp, prior, factory, numEmptyClusters)
-  else print("Only Neal8 and Reuse implemented\n")
+  elseif alg == "Slice" model = MixtureSlice(nggp, prior, factory)
+  else print("Only Neal8, Reuse and Slice implemented\n")
   end
 
   if numdim == 1

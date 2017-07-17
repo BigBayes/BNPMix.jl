@@ -1,26 +1,30 @@
 using NRMMM
 
 # Compute statistics
-parameters = open(readdlm,"output/neal8.parameters")
-essNbClusters = ess_factor(parameters[:,1])[1]
-print("ESS Julia: ", essNbClusters)
+parameters = open(readdlm,"/Users/EmileMathieu/code/forstefano/galaxy.nc.reuse.parameters")
+print("\nESS: ", ess_factor(parameters[:,1])[1])
 
-parametersJava = open(readdlm,"../forstefano/galaxy.nc.neal82.parameters")
-essNbClustersJava = ess_factor(parametersJava[:,1])[1]
-print("\nESS Java: ", essNbClustersJava)
+parameters2 = open(readdlm,"/Users/EmileMathieu/code/forstefano/galaxy.nc.neal8.parameters")
+print("\nESS: ", ess_factor(parameters2[:,1])[1])
+
+parameters3 = open(readdlm,"/Users/EmileMathieu/code/forstefano/galaxy.nc.slice.parameters")
+print("\nESS: ", ess_factor(parameters3[:,1])[1])
+
+parameters4 = open(readdlm,"output/galaxy.nc.slice.parameters")
+parameters5 = open(readdlm,"output/galaxy.nc.reuse2.parameters")
 
 using PlotlyJS
 function plot_histograms(x0, x1, title)
-    trace1 = histogram(x=x0, opacity=0.75, name="Julia")
-    trace2 = histogram(x=x1, opacity=0.75, name="Java")
+    trace1 = histogram(x=x0, opacity=0.75, name="1")
+    trace2 = histogram(x=x1, opacity=0.75, name="2")
     data = [trace1, trace2]
     layout = Layout(barmode="overlay",yaxis=attr(title=title),xaxis=attr(title="x"))
     plot(data, layout)
 end
 ##
-plot_histograms(parameters[:,1], parametersJava[:,1], "Nb Clusters")
-plot_histograms(parameters[:,2], parametersJava[:,2], "Alpha")
-plot_histograms(parametersJava[:,3], parameters[:,3], "Sigma")
-#plot_histograms(parametersJava[:,3], parameters[:,3], "Tau")
-plot_histograms(parametersJava[:,5], parameters[:,5], "logU")
-plot_histograms(parameters[:,6], parametersJava[:,6], "InvScale")
+plot_histograms(parameters4[:,1], parameters5[:,1], "Nb Clusters")
+plot_histograms(parameters4[:,2], parameters5[:,2], "Alpha")
+plot_histograms(parameters4[:,3], parameters5[:,3], "Sigma")
+#plot_histograms(parameters4[:,3], parameters5[:,3], "Tau")
+plot_histograms(parameters4[:,5], parameters5[:,5], "logU")
+plot_histograms(parameters4[:,6], parameters5[:,6], "InvScale")

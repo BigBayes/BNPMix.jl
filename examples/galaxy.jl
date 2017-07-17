@@ -6,39 +6,10 @@ data /= 1e4
 # alg parameters
 alg = "Reuse"#"Neal8"
 conjugate = false
-numBurnin = 2000
-numSample = 2000
+numBurnin = 5000
+numSample = 5000
 numThinning = 20
 numEmptyClusters = 2
-outputFilename = string("galaxy.",conjugate? "cs." : "nc.", lowercase(alg), numEmptyClusters, ".parameters")
+outputFilename = string("galaxy.",conjugate? "cs." : "nc.", lowercase(alg), alg!="Slice"?numEmptyClusters:"", ".parameters")
 
 nrmi(alg, conjugate, outputFilename, numBurnin, numSample, numThinning, numEmptyClusters)
-
-# TESTS
-# logmass = 0.0
-# w = 0.0
-# paramMeanMean = 0.0
-# paramPrecisionMean = 0.0
-# sumX = 0.0
-# sumXX = 0.0
-#
-# for cc in model.clusters
-#   assert(cc.number == cc.parameter.number)
-#   assert(cc.parameter.prior == prior)
-#   logmass += cc.logmass
-#   w += cc.w
-#   sumX += cc.parameter.sumX
-#   sumXX += cc.parameter.sumXX
-#   paramMeanMean += mean(cc.parameter.param)
-#   paramPrecisionMean += 1.0/var(cc.parameter.param)
-# end
-# paramMeanMean /= length(model.clusters)
-# paramPrecisionMean /= length(model.clusters)
-#
-# print("\nNb clusters: ", length(model.clusters))
-# print("\nlogmass: ", logmass)
-# print("\nw: ", w)
-# print("\nparamMeanMean: ", paramMeanMean)
-# print("\nparamPrecisionMean: ", paramPrecisionMean)
-# print("\nsumX: ", sumX)
-# print("\nsumXX: ", sumXX)
