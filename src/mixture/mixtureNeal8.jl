@@ -30,7 +30,7 @@ end
 
 function addData(m::MixtureNeal8, traindata::Array{Float, 2})
   addDataAbstract(m, traindata)
-  #sampleAssignments(m)
+  sampleAssignments(m)
 end
 
 function sampleAssignments(m::MixtureNeal8)

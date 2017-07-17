@@ -1,5 +1,10 @@
 abstract type Mixture end
 
+export
+    assign,
+    unassign,
+    getDatum
+
 # Helpers
 function numData{T<:Mixture}(m::T)
   return size(m.data, 1)
