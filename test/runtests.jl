@@ -7,3 +7,4 @@ using Base.Test
 @testset "cluster"                begin include("clusterTest.jl")                end
 @testset "mixture"                begin include("mixtureTest.jl")                end
 @testset "NormalGammaIndependent" begin include("NormalGammaIndependentTest.jl") end
+@testset "NGGP"                   begin include("NGGPTest.jl")                   end
