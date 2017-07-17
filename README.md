@@ -18,6 +18,15 @@ Pkg.clone("https://github.com/emilemathieu/NRMMM.jl")
 using NRMMM
 ```
 
+## Example
+
+You can run the Reuse conditional sampler on the galaxy dataset modelled as a mixtures of Gaussian with a normalized generalized Gamma prior:
+
+```bash
+cd examples
+julia galaxy.jl
+```
+
 ## Reference
 
 * Favaro, Teh, *MCMC for Normalized Random Measure Mixture Models*, [link](https://www.stats.ox.ac.uk/~teh/research/npbayes/FavTeh2013a.pdf), 2013.
