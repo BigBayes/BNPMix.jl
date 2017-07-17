@@ -2,7 +2,13 @@ using Distributions
 import StatsBase.sample
 
 export
-    NGGP
+    NGGP,
+    logLevy,
+    laplace,
+    logGamma,
+    logMeanMass,
+    logMeanTotalMass,
+    meanNumClusters
 
 # Normalized Gamma Generalized Process
 abstract type NRMI end
@@ -24,7 +30,7 @@ NGGP(Ashape::Float, Ainvscale::Float, Salpha::Float, Sbeta::Float, Tshape::Float
 NGGP(Ashape, Ainvscale, Salpha, Sbeta, Tshape, Tinvscale, (Ashape+1.0)/(Ainvscale+1.0), 0.1, (Tshape+1.0)/(Tinvscale+1.0), 0.0)
 
 function logLevy{T<:NRMI}(mu::T, mass::Float)
-  logLevy(mu, mass, 0.0)
+  logLevy(mu, mass, 0.0) #logLevy(mu, mass, mu.logU) ??
 end
 
 function logLevy(nggp::NGGP, mass::Float, logu::Float)
