@@ -15,10 +15,12 @@ function numClusters{T<:Mixture}(m::T)
 end
 
 function getDatum{T<:Mixture}(m::T, i::Int)
+  assert((i >= 1) & (i <= length(m.map)))
   return m.data[i,:]
 end
 
 function getCluster{T<:Mixture}(m::T, i::Int)
+  assert((i >= 1) & (i <= length(m.map)))
   return m.map[i]
 end
 

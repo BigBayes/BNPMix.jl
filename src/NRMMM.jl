@@ -23,6 +23,7 @@ include("nrmi/NGGP.jl")
 include("mixture/mixture.jl")
 include("mixture/mixtureNeal8.jl")
 include("mixture/mixtureReuse.jl")
+include("mixture/mixtureSlice.jl")
 
 include("mcmc/sampler.jl")
 

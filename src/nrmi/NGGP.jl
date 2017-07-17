@@ -182,3 +182,49 @@ function sampleTau(nggp::NGGP, clusters::Set{Cluster})
   sampler = Metropolis(propose)
   nggp.tau = sample(sampler, logratio, nggp.tau)
 end
+
+function logW(nggp::NGGP, s::Float, t::Float)
+  return log(nggp.alpha) -
+  lgamma(1.0-nggp.sigma) - (1.0+nggp.sigma)*log(t) - s*(exp(nggp.logU)+nggp.tau)
+end
+
+function invWInt(nggp::NGGP, x::Float, t::Float, logu::Float)
+  a = log(x*(exp(logu)+nggp.tau))
+  b = logLevy(nggp, t, logu)
+  if a >= b  return Inf end
+  if b > a+33.0 return t+exp(a-b)/(exp(logu)+nggp.tau)
+  else return t-log(1.0-exp(a-b))/(exp(logu)+nggp.tau)
+  end
+end
+
+function drawLogMasses(nggp::NGGP, slice::Float)
+  minSlice = 1.0e-7
+  maxClusters = 10000 #1000000
+  slice = exp(slice)
+  if slice < minSlice slice = 1.0e-6 end
+
+  s = slice
+  masses = Array{Float}(0)
+  while(true)
+    e = rand(Exponential(1.0))
+    news = invWInt(nggp, e, s, nggp.logU)
+    if news == Inf break end
+    if (rand() < exp(logLevy(nggp, news, nggp.logU) - logW(nggp, news, s)))
+      push!(masses, news)
+    end
+    if length(masses) > maxClusters
+      masses = Array{Float}(0)
+      slice *= 10.0
+      news = slice
+    end
+    s = news
+  end
+
+  masses = masses[end:-1:1]
+  result = zeros(Float, length(masses))
+  for i in 1:length(masses)
+    result[i] = log(masses[i])
+  end
+
+  return result
+end

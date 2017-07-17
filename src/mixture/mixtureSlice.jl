@@ -1,47 +1,106 @@
+export
+    MixtureSlice
+
 mutable struct MixtureSlice <: Mixture
     nrmi::NRMI
     prior::Prior
     factory::Factory
-    numNewClusters::Int
     data::Union{Void, Array{Float, 2}}
     map::Union{Array{Union{Cluster, Void}, 0}, Array{Union{Cluster, Void}, 1}}
     clusters::Set{Cluster}
     numClustersRatio::Float
     minslice::Float
     slice::Union{Array{Float, 0},Array{Float, 1}}
-    clusterarray::Union{Array{Float, 0},Array{Float, 1}}
+    clusterarray::Union{Array{Cluster, 0},Array{Cluster, 1}}
     # Constructor
-    function MixtureReuse(nrmi::NRMI, prior::Prior, factory::Factory, numNewClusters::Int)
-      this = new(nrmi, prior, factory, numNewClusters, nothing, Array{Union{Void, Cluster}}(0), Set{Cluster}(), 5.0, 1.0e-8, Array{Float}(0), Array{Float}(0))
+    function MixtureSlice(nrmi::NRMI, prior::Prior, factory::Factory)
+      this = new(nrmi, prior, factory, nothing, Array{Union{Void, Cluster}}(0), Set{Cluster}(), 5.0, 1.0e-8, Array{Float}(0), Array{Cluster}(0))
       return this
     end
 end
 
-function addData(m::MixtureReuse, traindata::Array{Float, 2})
-  #addDataAbstract(m, traindata)
-  #sampleAssignments(m)
+function clearClusterarray(m::MixtureSlice)
+  m.clusterarray = Array{Cluster}(0)
 end
 
-function sampleAssignments(m::MixtureReuse)
+function addClustersToClusterarray(m::MixtureSlice)
+  for cc in m.clusters
+    push!(m.clusterarray, cc)
+  end
+end
+
+function addData(m::MixtureSlice, traindata::Array{Float, 2})
+  addDataAbstract(m, traindata)
+
+  numdata = size(traindata, 1)
+  for i in 1:numdata
+    push!(m.slice, getCluster(m, i).logmass - rndExponential())
+  end
+  # update partition structure variables, but not cluster parameters
+  for cc in m.clusters
+    cc.logmass = drawLogMass(m.nrmi, cc.number)
+    #sample(cc.parameter)
+  end
+  minMass = Inf
+  for i in 1:numdata
+    s = getCluster(m, i).logmass - rndExponential()
+    m.slice[i] = s
+    minMass = min(minMass, s)
+  end
+
+  masses = drawLogMasses(m.nrmi, minMass)
+  clearClusterarray(m)
+  addClustersToClusterarray(m)
+  for mass in masses
+    push!(m.clusterarray, newCluster(m, mass))
+  end
+  m.clusterarray = sort(m.clusterarray, by=cc->cc.logmass, rev=true) #Collections.sort(clusterarray, Cluster.comparator)
+
+  sampleAssignments(m)
+end
+
+function sampleClusters(m::MixtureSlice)
+  for cc in m.clusters
+    cc.logmass = drawLogMass(m.nrmi, cc.number)
+    sample(cc.parameter)
+  end
+
+  minMass = Inf
+  for i in 1:size(m.data,1)
+    s = getCluster(m, i).logmass - rndExponential()
+    m.slice[i] = s
+    minMass = min(minMass, s)
+  end
+
+  masses = drawLogMasses(m.nrmi, minMass)
+  clearClusterarray(m)
+  addClustersToClusterarray(m)
+  for mass in masses
+    push!(m.clusterarray, newCluster(m, mass))
+  end
+  m.clusterarray = sort(m.clusterarray, by=cc->cc.logmass, rev=true) #Collections.sort(clusterarray, Cluster.comparator)
+end
+
+function sampleAssignments(m::MixtureSlice)
   numData = size(m.data, 1)
   for i in 1:numData
     sampleAssignment(m, i)
   end
-  m.clusters = Set()
+  m.clusters = Set{Cluster}()
   num = 0
   for cc in m.clusterarray
     if !isEmpty(cc)
-      push!(clusters, cc)
+      push!(m.clusters, cc)
     end #destruct(factory, prior, cc.parameter)
     num += cc.number
   end
   assert(num == numData)
 end
 
-function sampleAssignment(m::MixtureReuse, index::Int)
+function sampleAssignment(m::MixtureSlice, index::Int)
   datum = getDatum(m, index)
   unassign(m, index, datum)
-  thisslice = slice[index]
+  thisslice = m.slice[index]
 
   for cc in m.clusterarray
     if cc.logmass < thisslice break end
@@ -51,7 +110,7 @@ function sampleAssignment(m::MixtureReuse, index::Int)
   ma = -Inf
   for cc in m.clusterarray
     if cc.logmass < thisslice break end
-    if ma < cc.w ma = cc.w
+    if ma < cc.w ma = cc.w end
   end
 
   s = 0.0
