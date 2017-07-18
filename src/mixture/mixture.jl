@@ -109,3 +109,14 @@ function sampleClusterHyperparameters{T<:Mixture}(m::T)
   end
   sample(m.prior, cdata)
 end
+
+function get{T<:Mixture}(m::T, property::String)
+  if property == "nrmi_alpha" return m.nrmi.alpha
+  elseif property == "nrmi_sigma" return m.nrmi.sigma
+  elseif property == "nrmi_tau" return m.nrmi.tau
+  elseif property == "nrmi_logU" return m.nrmi.logU
+  elseif property == "prior_precisionInvScale" return m.prior.precisionInvScale
+  elseif property == "nbClusters" return length(m.clusters)
+  else print("No such property")
+  end
+end

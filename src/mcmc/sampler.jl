@@ -7,15 +7,12 @@ export
 
 struct Sampler
   model::Mixture
+  collectors::Array{Any}{1}#Array{Float}{2}
   numBurnIn::Int
   numSample::Int
   numThinning::Int
   outputFilename::String
-  collectors::Array{Float}{2}
 end
-
-Sampler(model::Mixture, numBurnIn::Int, numSample::Int, numThinning::Int, outputFilename::String) =
-Sampler(model, numBurnIn, numSample, numThinning, outputFilename, zeros(Float, numSample, 6))
 
 function runSampler(s::Sampler)
   print("\n Initialize Sampler: \n")
@@ -29,18 +26,16 @@ function runSampler(s::Sampler)
   lruntime = toq()
   #Flush
   p = Progress(s.numSample, 5, "Sampling: ", 50)
+  collector = zeros(Float, s.numSample, length(s.collectors))
   for i in 1:s.numSample
     tic()
     sample(s, s.numThinning)
     lruntime += toq()
     update!(p, i)
-    s.collectors[i, 1] = length(s.model.clusters)
-    s.collectors[i, 2] = s.model.nrmi.alpha
-    s.collectors[i, 3] = s.model.nrmi.sigma
-    s.collectors[i, 4] = s.model.nrmi.tau
-    s.collectors[i, 5] = s.model.nrmi.logU
-    s.collectors[i, 6] = s.model.prior.precisionInvScale
     #Collect
+    for j in 1:length(s.collectors)
+      collector[i, j] = get(s.model, s.collectors[j])
+    end
     #Flush
   end
   print("\n Done: ", "\nRun time = ", lruntime)
@@ -50,13 +45,11 @@ function runSampler(s::Sampler)
   Base.run(`touch output/$outputFilename`)
   open(string("output/", outputFilename), "w") do f
      for i in 1:s.numSample
-        n1 = s.collectors[i, 1]
-        n2 = s.collectors[i, 2]
-        n3 = s.collectors[i, 3]
-        n4 = s.collectors[i, 4]
-        n5 = s.collectors[i, 5]
-        n6 = s.collectors[i, 6]
-        write(f, "$n1 $n2 $n3 $n4 $n5 $n6\n")
+       line = string()
+       for j in 1:length(s.collectors)
+         line = string(line, " ",  collector[i, j])
+       end
+        write(f, "$line\n")
      end
    end
 end

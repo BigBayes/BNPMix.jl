@@ -117,7 +117,8 @@ function nrmi(alg::String, conjugate::Bool, outputFilename::String, numBurnin::I
   #print("\n  useMeanVar = ", useMeanVar)
 
   # Sampling
-  sampler = Sampler(model, numBurnin, numSample, numThinning, outputFilename)
+  collectors = ["nbClusters", "nrmi_sigma", "nrmi_tau", "nrmi_logU", "prior_precisionInvScale"]
+  sampler = Sampler(model, collectors, numBurnin, numSample, numThinning, outputFilename)
   runSampler(sampler)
 
 end
