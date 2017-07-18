@@ -45,6 +45,7 @@ function runSampler(s::Sampler)
   end
   print("\n Done: ", "\nRun time = ", lruntime)
   outputFilename = s.outputFilename
+  Base.run(`mkdir -p output`)
   Base.run(`rm -f output/$outputFilename`)
   Base.run(`touch output/$outputFilename`)
   open(string("output/", outputFilename), "w") do f
