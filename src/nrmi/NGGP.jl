@@ -199,7 +199,7 @@ end
 
 function drawLogMasses(nggp::NGGP, slice::Float)
   minSlice = 1.0e-7
-  maxClusters = 10000 #1000000
+  maxClusters = 1000000
   slice = exp(slice)
   if slice < minSlice slice = 1.0e-6 end
 

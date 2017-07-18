@@ -8,10 +8,8 @@ import Base.run, Base.convert, StatsBase.sample
 const Int   = Int64
 const Float = Float64
 
-#include("nrmi.jl")
 include("mcmc/metropolis.jl")
 include("mcmc/sliceStepOut.jl")
-include("mcmc/ess.jl")
 
 include("xfamily/normalGammaIndependent.jl")
 include("xfamily/normalNonConjugateHierarchySampled.jl")
