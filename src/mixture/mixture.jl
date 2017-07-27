@@ -6,6 +6,7 @@ export
     getDatum
 
 # Helpers
+
 function numData{T<:Mixture}(m::T)
   return size(m.data, 1)
 end
@@ -74,7 +75,6 @@ end
 # Sampling
 
 function initializeSampler{T<:Mixture}(m::T)
-  #print("<:Mixture - initializeSampler\n")
   for i in 1:10
     sampleClusters(m)
     sampleAssignments(m)
@@ -82,7 +82,6 @@ function initializeSampler{T<:Mixture}(m::T)
 end
 
 function sample{T<:Mixture}(m::T)
-  #print("<:Mixture - sample\n")
   sampleClusters(m)
   sampleAssignments(m)
   sampleNRMIParameters(m)
@@ -90,19 +89,16 @@ function sample{T<:Mixture}(m::T)
 end
 
 function sampleNRMIParameters{T<:Mixture}(m::T)
-  #print("<:Mixture - sampleNRMIParameters\n")
   sample(m.nrmi, numData(m), m.clusters)
 end
 
 function sampleClusters{T<:Mixture}(m::T)
-  #print("<:Mixture - sampleClusters\n")
   for cc in m.clusters
     sample(cc.parameter)
   end
 end
 
 function sampleClusterHyperparameters{T<:Mixture}(m::T)
-  #print("<:Mixture - sampleClusterHyperparameters\n")
   cdata = Set{Hierarchy}()
   for cc in m.clusters
     push!(cdata, cc.parameter)
@@ -111,12 +107,12 @@ function sampleClusterHyperparameters{T<:Mixture}(m::T)
 end
 
 function get{T<:Mixture}(m::T, property::String)
-  if property == "nrmi_alpha" return m.nrmi.alpha
-  elseif property == "nrmi_sigma" return m.nrmi.sigma
-  elseif property == "nrmi_tau" return m.nrmi.tau
-  elseif property == "nrmi_logU" return m.nrmi.logU
-  elseif property == "prior_precisionInvScale" return m.prior.precisionInvScale
-  elseif property == "nbClusters" return length(m.clusters)
-  else print("No such property")
+  if      property == "nrmi_alpha"               return m.nrmi.alpha
+  elseif  property == "nrmi_sigma"               return m.nrmi.sigma
+  elseif  property == "nrmi_tau"                 return m.nrmi.tau
+  elseif  property == "nrmi_logU"                return m.nrmi.logU
+  elseif  property == "prior_precisionInvScale"  return m.prior.precisionInvScale
+  elseif  property == "nbClusters"               return length(m.clusters)
+  else    print("No such property")
   end
 end

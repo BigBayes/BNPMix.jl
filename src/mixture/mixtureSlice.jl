@@ -2,21 +2,19 @@ export
     MixtureSlice
 
 mutable struct MixtureSlice <: Mixture
-    nrmi::NRMI
-    prior::Prior
-    factory::Factory
-    data::Union{Void, Array{Float, 2}}
-    map::Union{Array{Union{Cluster, Void}, 0}, Array{Union{Cluster, Void}, 1}}
-    clusters::Set{Cluster}
-    numClustersRatio::Float
-    minslice::Float
-    slice::Union{Array{Float, 0},Array{Float, 1}}
-    clusterarray::Union{Array{Cluster, 0},Array{Cluster, 1}}
-    # Constructor
-    function MixtureSlice(nrmi::NRMI, prior::Prior, factory::Factory)
-      this = new(nrmi, prior, factory, nothing, Array{Union{Void, Cluster}}(0), Set{Cluster}(), 5.0, 1.0e-8, Array{Float}(0), Array{Cluster}(0))
-      return this
-    end
+  nrmi              ::  NRMI    # Normalized random measure
+  prior             ::  Prior   # Base distribution (prior over component parameters)
+  factory           ::  Factory # Factory object to generate component parameters from prior
+  data              ::  Union{Void, Array{Float, 2}}  # Observed data
+  map               ::  Union{Array{Union{Cluster, Void}, 0}, Array{Union{Cluster, Void}, 1}} # Mapping from data to clusters
+  clusters          ::  Set{Cluster} # Clusters making up the mixture
+  numClustersRatio  ::  Float
+  minslice          ::  Float
+  slice             ::  Union{Array{Float, 0},Array{Float, 1}}
+  clusterarray      ::  Union{Array{Cluster, 0},Array{Cluster, 1}}
+
+  MixtureSlice(nrmi::NRMI, prior::Prior, factory::Factory) =
+    new(nrmi, prior, factory, nothing, Array{Union{Void, Cluster}}(0), Set{Cluster}(), 5.0, 1.0e-8, Array{Float}(0), Array{Cluster}(0))
 end
 
 function clearClusterarray(m::MixtureSlice)
@@ -54,7 +52,7 @@ function addData(m::MixtureSlice, traindata::Array{Float, 2})
   for mass in masses
     push!(m.clusterarray, newCluster(m, mass))
   end
-  m.clusterarray = sort(m.clusterarray, by=cc->cc.logmass, rev=true) #Collections.sort(clusterarray, Cluster.comparator)
+  m.clusterarray = sort(m.clusterarray, by=cc->cc.logmass, rev=true)
 
   sampleAssignments(m)
 end
@@ -78,7 +76,7 @@ function sampleClusters(m::MixtureSlice)
   for mass in masses
     push!(m.clusterarray, newCluster(m, mass))
   end
-  m.clusterarray = sort(m.clusterarray, by=cc->cc.logmass, rev=true) #Collections.sort(clusterarray, Cluster.comparator)
+  m.clusterarray = sort(m.clusterarray, by=cc->cc.logmass, rev=true)
 end
 
 function sampleAssignments(m::MixtureSlice)
@@ -91,7 +89,7 @@ function sampleAssignments(m::MixtureSlice)
   for cc in m.clusterarray
     if !isEmpty(cc)
       push!(m.clusters, cc)
-    end #destruct(factory, prior, cc.parameter)
+    end
     num += cc.number
   end
   assert(num == numData)

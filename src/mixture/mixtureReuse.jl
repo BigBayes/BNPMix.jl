@@ -3,22 +3,21 @@ export
     addData
 
 mutable struct MixtureReuse <: Mixture
-    nrmi::NRMI
-    prior::Prior
-    factory::Factory
-    numNewClusters::Int
-    data::Union{Void, Array{Float, 2}}
-    map::Union{Array{Union{Cluster, Void}, 0}, Array{Union{Cluster, Void}, 1}}
-    clusters::Set{Cluster}
-    numClustersRatio::Float
-    empties::Array{Union{Cluster, Void}, 1}
+  nrmi              ::  NRMI    # Normalized random measure
+  prior             ::  Prior   # Base distribution (prior over component parameters)
+  factory           ::  Factory # Factory object to generate component parameters from prior
+  numNewClusters    ::  Int     # Number of clusters making up the augmented space
+  data              ::  Union{Void, Array{Float, 2}}  # Observed data
+  map               ::  Union{Array{Union{Cluster, Void}, 0}, Array{Union{Cluster, Void}, 1}} # Mapping from data to clusters
+  clusters          ::  Set{Cluster} # Clusters making up the mixture
+  numClustersRatio  ::  Float
+  empties           ::  Array{Union{Cluster, Void}, 1} # Augmented space
 
-    # Constructor
-    function MixtureReuse(nrmi::NRMI, prior::Prior, factory::Factory, numNewClusters::Int)
-      this = new(nrmi, prior, factory, numNewClusters, nothing, Array{Union{Void, Cluster}}(0), Set{Cluster}(), 5.0, Array{Union{Void, Cluster}}(0))
-      initializeEmpties(this)
-      return this
-    end
+  function MixtureReuse(nrmi::NRMI, prior::Prior, factory::Factory, numNewClusters::Int)
+    this = new(nrmi, prior, factory, numNewClusters, nothing, Array{Union{Void, Cluster}}(0), Set{Cluster}(), 5.0, Array{Union{Void, Cluster}}(0))
+    initializeEmpties(this)
+    return this
+  end
 end
 
 function initializeEmpties(m::MixtureReuse)

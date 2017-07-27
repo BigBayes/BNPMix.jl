@@ -1,7 +1,3 @@
-include("../utils.jl")
-using Distributions
-import Base.convert
-
 export
     SliceFiniteInterval,
     SliceStepOut,
@@ -10,8 +6,8 @@ export
 ### SliceFiniteInterval
 
 struct SliceFiniteInterval
-  lower::Float
-  upper::Float
+  lower  ::  Float
+  upper  ::  Float
 end
 
 function sample(sampler::SliceFiniteInterval, logDensity::Function, value::Float)
@@ -21,7 +17,6 @@ end
 
 
 function sample(sampler::SliceFiniteInterval, logDensity::Function, value::Float, slice::Float)
-  #print("SliceFiniteInterval - sample\n")
   l = sampler.lower
   u = sampler.upper
   while true
@@ -36,13 +31,13 @@ end
 ### SliceStepOut
 
 mutable struct SliceStepOut
-  stepsize::Float
-  numstep::Int
-  lower::Float
-  upper::Float
-end
+  stepsize  ::  Float
+  numstep   ::  Int
+  lower     ::  Float
+  upper     ::  Float
 
-SliceStepOut(stepsize::Float, numstep::Int) = SliceStepOut(stepsize, numstep, 0.0, 1.0)
+  SliceStepOut(stepsize::Float, numstep::Int) = new(stepsize, numstep, 0.0, 1.0)
+end
 
 convert(::Type{SliceFiniteInterval}, sampler::SliceStepOut) = SliceFiniteInterval(sampler.lower, sampler.upper)
 
@@ -55,7 +50,6 @@ function setUpper(sampler::Union{SliceFiniteInterval, SliceStepOut}, u::Float)
 end
 
 function sample(sampler::SliceStepOut, logDensity::Function, value::Float)
-  #print("SliceStepOut - sample\n")
   slice = logDensity(value) - rndExponential()
   l = value - sampler.stepsize * rand(Uniform())
   u = l + sampler.stepsize

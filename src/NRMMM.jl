@@ -8,6 +8,7 @@ import Base.run, Base.convert, StatsBase.sample
 const Int   = Int64
 const Float = Float64
 
+include("utils.jl")
 include("mcmc/metropolis.jl")
 include("mcmc/sliceStepOut.jl")
 

@@ -5,11 +5,11 @@ export
     construct
 
 mutable struct NormalNonConjugateHierarchySampled <: Hierarchy
-  prior::NormalGammaIndependent
-  sumX::Float
-  sumXX::Float
-  number::Int
-  param::Distributions.Normal{Float}
+  prior  ::  NormalGammaIndependent # Gamma-Independent prior on the Normal distribution
+  sumX   ::  Float                  # Running mean of data belonging to the associated cluster
+  sumXX  ::  Float                  # Running variance of data belonging to the associated cluster
+  number ::  Int                    # Number of data belonging to the associated cluster
+  param  ::  Distributions.Normal{Float}
 end
 
 NormalNonConjugateHierarchySampled(prior::NormalGammaIndependent) =
@@ -30,7 +30,6 @@ function removeDatum(h::NormalNonConjugateHierarchySampled, datum::Array{Float, 
 end
 
 function sample(h::NormalNonConjugateHierarchySampled)
-  #print("NormalNonConjugateHierarchySampled - sample")
   if (h.number == 0)
     h.param = drawSample(h.prior)
   else

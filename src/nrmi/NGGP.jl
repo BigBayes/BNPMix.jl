@@ -1,6 +1,3 @@
-using Distributions
-import StatsBase.sample
-
 export
     NGGP,
     logLevy,
@@ -10,20 +7,19 @@ export
     logMeanTotalMass,
     meanNumClusters
 
-# Normalized Gamma Generalized Process
 abstract type NRMI end
 
-mutable struct NGGP <: NRMI
-  Ashape::Float
-  Ainvscale::Float
-  Salpha::Float
-  Sbeta::Float
-  Tshape::Float
-  Tinvscale::Float
-  alpha::Float
-  sigma::Float
-  tau::Float
-  logU::Float
+mutable struct NGGP <: NRMI # Normalized Gamma Generalized Process
+  Ashape     ::  Float  # Gamma's shape parameter for alpha prior
+  Ainvscale  ::  Float  # Gamma's inverse scale parameter for alpha prior
+  Salpha     ::  Float  # Beta's alpha parameter for sigma prior
+  Sbeta      ::  Float  # Beta's beta parameter for sigma prior
+  Tshape     ::  Float  # Gamma's shape parameter for tau prior
+  Tinvscale  ::  Float  # Gamma's inverse scale parameter for tau prior
+  alpha      ::  Float  # alpha parameter of NGGP's Lévy intensity measure
+  sigma      ::  Float  # sigma parameter of NGGP's Lévy intensity measure
+  tau        ::  Float  # tau parameter of NGGP's Lévy intensity measure
+  logU       ::  Float  # Auxiliary random variable
 end
 
 NGGP(Ashape::Float, Ainvscale::Float, Salpha::Float, Sbeta::Float, Tshape::Float, Tinvscale::Float) =
@@ -71,18 +67,9 @@ function logMeanMass(nggp::NGGP, num::Int)
   return  logMeanMass(nggp.sigma, nggp.tau, num, nggp.logU)
 end
 
-#function logMeanMass(nggp::NGGP, num::Int)
-  #return  logMeanMass(nggp, num, nggp.logU)
-#end
-
 function logMeanMass(sigma::Float, tau::Float, num::Int, logu::Float)
   return log((num-sigma) / (tau+exp(logu)))
 end
-
-#function logMeanMass(nggp::NGGP, num::Int, logu::Float)
-  #return log(num-nggp.sigma) - log(nggp.tau+exp(logu))
-  #return log((num-nggp.sigma) / (nggp.tau+exp(logu)))
-#end
 
 function logMeanTotalMass(nggp::NGGP, numclusters::Int) # why numclusters ??
   return logMeanTotalMass(nggp.alpha, nggp.sigma, nggp.tau, numclusters, nggp.logU)
@@ -105,13 +92,11 @@ function meanNumClusters(nggp::NGGP, num::Int)
 end
 
 function meanNumClusters(nggp::NGGP, num::Int, logu::Float)
-  print("NGGP.meanNumClusters: dont know answer yet\n")
   return nggp.alpha*log(1+num/nggp.alpha)
 end
 
 ### Sampling
 function sample(nggp::NGGP, numData::Int, clusters::Set{Cluster})
-  #print("NGGP - sample\n")
   sampleU(nggp, numData, clusters)
   sampleAlpha(nggp, clusters)
   sampleSigma(nggp, clusters)
@@ -119,7 +104,6 @@ function sample(nggp::NGGP, numData::Int, clusters::Set{Cluster})
 end
 
 function sampleU(nggp::NGGP, numData::Int, clusters::Set{Cluster}) # No prior on hyperparameters
-  #print("NGGP - sampleU\n")
   sampler = SliceStepOut(1.0, 20)
 
   function logDensityU(logu::Float)

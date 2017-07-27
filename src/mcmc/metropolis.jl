@@ -1,13 +1,11 @@
-import StatsBase.sample
-
 export
     Metropolis,
     sample
 
 mutable struct Metropolis
-  propose::Function
-  acceptancerate::Float
-  num::Float
+  propose         ::  Function  # Proposal function
+  acceptancerate  ::  Float     # Acceptance rate
+  num             ::  Float     # Number of iterations
 end
 
 Metropolis(propose::Function) = Metropolis(propose, 0.0, 0.0)

@@ -1,17 +1,18 @@
 using NRMMM
+include("ess.jl")
 
 # Compute statistics
 parameters = open(readdlm,"/Users/EmileMathieu/code/forstefano/galaxy.nc.reuse.parameters")
 print("\nESS: ", ess_factor(parameters[:,1])[1])
-
 parameters2 = open(readdlm,"/Users/EmileMathieu/code/forstefano/galaxy.nc.neal8.parameters")
 print("\nESS: ", ess_factor(parameters2[:,1])[1])
-
 parameters3 = open(readdlm,"/Users/EmileMathieu/code/forstefano/galaxy.nc.slice.parameters")
 print("\nESS: ", ess_factor(parameters3[:,1])[1])
 
 parameters4 = open(readdlm,"output/galaxy.nc.slice.parameters")
+print("\nESS: ", ess_factor(parameters4[:,1])[1])
 parameters5 = open(readdlm,"output/galaxy.nc.reuse2.parameters")
+print("\nESS: ", ess_factor(parameters5[:,1])[1])
 
 using PlotlyJS
 function plot_histograms(x0, x1, title)

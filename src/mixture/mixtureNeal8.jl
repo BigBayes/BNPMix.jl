@@ -3,22 +3,21 @@ export
     addData
 
 mutable struct MixtureNeal8 <: Mixture
-    nrmi::NRMI
-    prior::Prior
-    factory::Factory
-    numNewClusters::Int
-    data::Union{Void, Array{Float, 2}}
-    map::Union{Array{Union{Cluster, Void}, 0}, Array{Union{Cluster, Void}, 1}}
-    clusters::Set{Cluster}
-    numClustersRatio::Float
-    empties::Array{Union{Cluster, Void}, 1}
+  nrmi              ::  NRMI    # Normalized random measure
+  prior             ::  Prior   # Base distribution (prior over component parameters)
+  factory           ::  Factory # Factory object to generate component parameters from prior
+  numNewClusters    ::  Int     # Number of clusters making up the augmented space
+  data              ::  Union{Void, Array{Float, 2}}  # Observed data
+  map               ::  Union{Array{Union{Cluster, Void}, 0}, Array{Union{Cluster, Void}, 1}} # Mapping from data to clusters
+  clusters          ::  Set{Cluster} # Clusters making up the mixture
+  numClustersRatio  ::  Float
+  empties           ::  Array{Union{Cluster, Void}, 1} # Augmented space
 
-    # Constructor
-    function MixtureNeal8(nrmi::NRMI, prior::Prior, factory::Factory, numNewClusters::Int)
-      this = new(nrmi, prior, factory, numNewClusters, nothing, Array{Union{Void, Cluster}}(0), Set{Cluster}(), 5.0, Array{Union{Void, Cluster}}(0))
-      initializeEmpties(this)
-      return this
-    end
+  function MixtureNeal8(nrmi::NRMI, prior::Prior, factory::Factory, numNewClusters::Int)
+    this = new(nrmi, prior, factory, numNewClusters, nothing, Array{Union{Void, Cluster}}(0), Set{Cluster}(), 5.0, Array{Union{Void, Cluster}}(0))
+    initializeEmpties(this)
+    return this
+  end
 end
 
 function initializeEmpties(m::MixtureNeal8)
@@ -34,7 +33,6 @@ function addData(m::MixtureNeal8, traindata::Array{Float, 2})
 end
 
 function sampleAssignments(m::MixtureNeal8)
-  #print("MixtureNeal8 - Sample Assignments\n")
   numData = size(m.data, 1)
   for cc in m.clusters
     cc.logmass = logMeanMass(m.nrmi, cc.number)
@@ -65,7 +63,6 @@ function sampleAssignment(m::MixtureNeal8, index::Int)
     sample(new0.parameter)
   else
     delete!(m.clusters, tt)
-    #factory.destruct(prior, new0.parameter) # useless
     new0.parameter = tt.parameter
   end
 

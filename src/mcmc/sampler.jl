@@ -1,17 +1,14 @@
-import Base.run
-using ProgressMeter
-
 export
     Sampler,
     runSampler
 
 struct Sampler
-  model::Mixture
-  collectors::Array{Any}{1}#Array{Float}{2}
-  numBurnIn::Int
-  numSample::Int
-  numThinning::Int
-  outputFilename::String
+  model           ::  Mixture
+  collectors      ::  Array{Any}{1}  # Array of variables to be collected
+  numBurnIn       ::  Int            # Number of burn-in iterations
+  numSample       ::  Int            # Number of samples
+  numThinning     ::  Int            # Number of thinning iterations
+  outputFilename  ::  String
 end
 
 function runSampler(s::Sampler)
@@ -24,7 +21,7 @@ function runSampler(s::Sampler)
     update!(p, i)
   end
   lruntime = toq()
-  #Flush
+
   p = Progress(s.numSample, 5, "Sampling: ", 50)
   collector = zeros(Float, s.numSample, length(s.collectors))
   for i in 1:s.numSample
@@ -32,12 +29,12 @@ function runSampler(s::Sampler)
     sample(s, s.numThinning)
     lruntime += toq()
     update!(p, i)
-    #Collect
+
     for j in 1:length(s.collectors)
       collector[i, j] = get(s.model, s.collectors[j])
     end
-    #Flush
   end
+
   print("\n Done: ", "\nRun time = ", lruntime)
   outputFilename = s.outputFilename
   Base.run(`mkdir -p output`)

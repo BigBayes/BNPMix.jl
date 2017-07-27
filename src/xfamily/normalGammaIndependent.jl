@@ -9,13 +9,13 @@ abstract type Hierarchy end
 abstract type Prior end
 
 mutable struct NormalGammaIndependent <: Prior
-    meanMean::Float
-    meanPrecision::Float
-    precisionShape::Float
-    precisionInvScaleAlpha::Float
-    precisionInvScaleBeta::Float
-    precisionInvScale::Float
-    data::Union{Set{Hierarchy}, Void}
+    meanMean                ::  Float  # Hyperparameters of Normal-Gamma-Independent
+    meanPrecision           ::  Float  # idem
+    precisionShape          ::  Float  # idem
+    precisionInvScaleAlpha  ::  Float  # idem
+    precisionInvScaleBeta   ::  Float  # idem
+    precisionInvScale       ::  Float  # idem
+    data                    ::  Union{Set{Hierarchy}, Void}
 
     function NormalGammaIndependent(meanMean::Float, meanPrecision::Float, precisionShape::Float, precisionInvScaleAlpha::Float, precisionInvScaleBeta::Float, precisionInvScale::Float)
     	assert((meanMean >= zero(meanMean)) && (meanPrecision >= zero(meanPrecision)) && (precisionShape >= zero(precisionShape)) &&
@@ -51,7 +51,6 @@ end
 ### Sampling
 
 function sample(d::NormalGammaIndependent, data::Set{Hierarchy})
-  #print("NormalGammaIndependent - sample\n")
   d.data = data
   #sampleMeanMean(d)
   #sampleMeanPrecision(d)
