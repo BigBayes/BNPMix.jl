@@ -7,7 +7,7 @@ mutable struct Cluster
     logmass    ::  Union{Float, Void}  # Mass (mixture proportion) of cluster
     parameter  ::  Hierarchy           # Parameter
     w          ::  Float               #
-    Cluster(number::Int, logmass::Float, parameter::Hierarchy) =
+    Cluster(number::Int, logmass::Union{Float, Void}, parameter::Hierarchy) =
       new(number, logmass, parameter, 0.0)
 end
 
