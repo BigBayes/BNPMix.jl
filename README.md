@@ -7,7 +7,7 @@ Unix | CodeCov | License
 ## What's this about
 
 This package is a Julia port of the Java code released with the article *MCMC for Normalized Random Measure Mixture Models*.
-Do not hesitate to create pull requests for enhancements or to open issues.
+Do not hesitate to create pull requests for enhancements or to open issues. You can write to me at: emile.mathieu -at- stats -dot- ox -dot- ac -dot- uk
 
 ## Installation and requirements
 
@@ -46,4 +46,4 @@ julia galaxy.jl
 
 ## Reference
 
-* Favaro, Teh, *MCMC for Normalized Random Measure Mixture Models*, [link](https://www.stats.ox.ac.uk/~teh/research/npbayes/FavTeh2013a.pdf), 2013.
+*  [Favaro, Teh, *MCMC for Normalized Random Measure Mixture Models*, 2013](https://www.stats.ox.ac.uk/~teh/research/npbayes/FavTeh2013a.pdf)
