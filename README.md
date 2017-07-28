@@ -52,6 +52,6 @@ To localy run the tests, run in Julia:
 Pkg.test("BNPMix")
 ```
 
-## Reference
+## References
 
 *  [Favaro, Teh, *MCMC for Normalized Random Measure Mixture Models*, 2013](https://www.stats.ox.ac.uk/~teh/research/npbayes/FavTeh2013a.pdf)
