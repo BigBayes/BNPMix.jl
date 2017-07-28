@@ -3,5 +3,3 @@
 *.jl.*.cov
 *.jl.mem
 output/**
-
-examples/sampleStatistics.jl
