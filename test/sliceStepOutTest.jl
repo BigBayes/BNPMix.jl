@@ -1,4 +1,4 @@
-using NRMMM
+using BNPMix
 using Base.Test
 
 sampler = SliceStepOut(0.2, 50)

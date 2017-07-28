@@ -4,7 +4,7 @@ data = [9172.0;9350.0;9483.0;9558.0;9775.0;10227.0;10406.0;16084.0;16170.0;18419
 data /= 1e4
 
 # alg parameters
-alg = "Reuse"
+alg = "Slice"
 conjugate = false
 numBurnin = 5000
 numSample = 5000

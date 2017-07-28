@@ -1,4 +1,4 @@
-using NRMMM
+using BNPMix
 using Base.Test
 
 sampler = SliceFiniteInterval(0.0, 1.0)

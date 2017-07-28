@@ -1,4 +1,4 @@
-using NRMMM
+using BNPMix
 
 # alg parameters
 numEmptyClusters = 2

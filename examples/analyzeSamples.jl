@@ -1,4 +1,4 @@
-using NRMMM
+using BNPMix
 using PlotlyJS
 include("ess.jl")
 

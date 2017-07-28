@@ -1,4 +1,4 @@
-using NRMMM
+using BNPMix
 using Base.Test
 
 alphaShape = 1.0

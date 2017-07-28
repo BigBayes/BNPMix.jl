@@ -1,4 +1,4 @@
-using NRMMM
+using BNPMix
 using Base.Test
 
 @testset "metropolis"             begin include("metropolisTest.jl")             end

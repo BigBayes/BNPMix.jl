@@ -1,4 +1,4 @@
-using NRMMM
+using BNPMix
 using Base.Test
 
 prior = NormalGammaIndependent(2.17255, 0.634557, 2.0, 0.2, 6.34557)

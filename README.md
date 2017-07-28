@@ -2,7 +2,7 @@
 
 Unix | CodeCov | License
 ---- | ------- | -------
-[![Travis](https://travis-ci.org/emilemathieu/NRMMM.jl.svg?branch=master)](https://travis-ci.org/emilemathieu/NRMMM.jl) | [![CodeCov](http://codecov.io/gh/emilemathieu/NRMMM.jl/coverage.svg?branch=master)](https://codecov.io/gh/emilemathieu/NRMMM.jl?branch=master) | [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Travis](https://travis-ci.org/BigBayes/BNPMix.jl.svg?branch=master)](https://travis-ci.org/BigBayes/BNPMix.jl) | [![CodeCov](http://codecov.io/gh/BigBayes/BNPMix.jl/coverage.svg?branch=master)](https://codecov.io/gh/BigBayes/BNPMix.jl?branch=master) | [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## What's this about
 
@@ -19,8 +19,8 @@ Requirements:
 In the Julia REPL:
 
 ```julia
-Pkg.clone("https://github.com/emilemathieu/NRMMM.jl")
-using NRMMM
+Pkg.clone("https://github.com/BigBayes/BNPMix.jl")
+using BNPMix
 ```
 
 ## Algorithms implemented
@@ -37,7 +37,7 @@ using NRMMM
 
 ## Example
 
-You can run the Reuse conditional sampler on the galaxy dataset modelled as a mixtures of Gaussian with a normalized generalized Gamma prior:
+You can run the Reuse conditional sampler on the galaxy dataset modeled as a mixtures of Gaussian with a normalized generalized Gamma prior:
 
 ```bash
 cd examples
@@ -49,7 +49,7 @@ julia galaxy.jl
 To localy run the tests, run in Julia:
 
 ```julia
-Pkg.test("NRMMM")
+Pkg.test("BNPMix")
 ```
 
 ## Reference

@@ -1,4 +1,4 @@
-module NRMMM
+module BNPMix
 
 using Distributions
 using ProgressMeter
