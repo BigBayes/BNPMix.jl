@@ -6,8 +6,8 @@ Unix | CodeCov | License
 
 ## What's this about
 
-This package is a Julia port of the Java code released with the article *MCMC for Normalized Random Measure Mixture Models*.
-Do not hesitate to create pull requests for enhancements or to open issues. You can write to me at: emile.mathieu -at- stats -dot- ox -dot- ac -dot- uk
+This package is a Julia port of the [Java code released](https://github.com/BigBayes/BNPMix.java) written by [Yee Whye Teh](https://www.stats.ox.ac.uk/~teh) for the article *MCMC for Normalized Random Measure Mixture Models*.
+Do not hesitate to create pull requests for enhancements or to open an issue. In any case, you can write to me ([Emile Mathieu](http://emilemathieu.fr)) at: emile.mathieu-at-stats-dot-ox-dot-ac-dot-uk.
 
 ## Installation and requirements
 
