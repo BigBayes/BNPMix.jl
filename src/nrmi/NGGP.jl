@@ -25,7 +25,7 @@ end
 NGGP(Ashape::Float, Ainvscale::Float, Salpha::Float, Sbeta::Float, Tshape::Float, Tinvscale::Float) =
 NGGP(Ashape, Ainvscale, Salpha, Sbeta, Tshape, Tinvscale, (Ashape+1.0)/(Ainvscale+1.0), 0.1, (Tshape+1.0)/(Tinvscale+1.0), 0.0)
 
-NGGP(alpha::Float, sigma::Float, tau::Float) = new(.0,.0,.0,.0,.0,.0,alpha,sigma,tau,0.0)
+NGGP(alpha::Float, sigma::Float, tau::Float) = NGGP(.0,.0,.0,.0,.0,.0,alpha,sigma,tau,0.0)
 
 function logLevy{T<:NRMI}(mu::T, mass::Float)
   logLevy(mu, mass, 0.0) #logLevy(mu, mass, mu.logU) ??
@@ -100,7 +100,7 @@ end
 ### Sampling
 function sample(nggp::NGGP, numData::Int, clusters::Set{Cluster})
   sampleU(nggp, numData, clusters)
-  sampleAlpha(nggp, clusters)
+  # sampleAlpha(nggp, clusters)
   # sampleSigma(nggp, clusters)
   # sampleTau(nggp, clusters)
 end

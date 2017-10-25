@@ -12,8 +12,10 @@ include("utils.jl")
 include("mcmc/metropolis.jl")
 include("mcmc/sliceStepOut.jl")
 
-include("xfamily/normalGammaIndependent.jl")
-include("xfamily/normalNonConjugateHierarchySampled.jl")
+# include("xfamily/normalGammaIndependent.jl")
+# include("xfamily/normalNonConjugateHierarchySampled.jl")
+include("xfamily/normalGammaIndependent2.jl")
+include("xfamily/normalNonConjugateHierarchySampled2.jl")
 
 include("mixture/cluster.jl")
 
