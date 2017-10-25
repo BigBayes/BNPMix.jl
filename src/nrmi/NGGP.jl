@@ -101,8 +101,8 @@ end
 function sample(nggp::NGGP, numData::Int, clusters::Set{Cluster})
   sampleU(nggp, numData, clusters)
   sampleAlpha(nggp, clusters)
-  sampleSigma(nggp, clusters)
-  sampleTau(nggp, clusters)
+  # sampleSigma(nggp, clusters)
+  # sampleTau(nggp, clusters)
 end
 
 function sampleU(nggp::NGGP, numData::Int, clusters::Set{Cluster}) # No prior on hyperparameters
