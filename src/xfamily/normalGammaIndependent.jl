@@ -55,7 +55,7 @@ function sample(d::NormalGammaIndependent, data::Set{Hierarchy})
   #sampleMeanMean(d)
   #sampleMeanPrecision(d)
   #samplePrecisionShape(d)
-  samplePrecisionInvScale(d)
+  # samplePrecisionInvScale(d)
 end
 
 function samplePrecisionInvScale(d::NormalGammaIndependent)
